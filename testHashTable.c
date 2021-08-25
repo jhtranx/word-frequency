@@ -1,13 +1,3 @@
-/*
- * A general purpose C unit testing framework developed for CPE 357 and
- * provided to students to expose them to and encourage their use of unit
- * testing and test driven development (TDD). While it was provided in
- * conjunction with the hash table project and associated exercise(s), students
- * are welcome and encourage to use and/or modify it, as they see fit, on
- * subsequent assignments in CPE 357 or anywhere else it they find it useful.
- *
- * Author: Kurt Mammen
- */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -23,10 +13,6 @@
 
 #define MAX_RANDOM_STR 72 /* Max length of any random string */
 
-/* Prototype for all test functions. This allows the creation of an array of
- * function pointers which makes the testing code shorter and more clear. It
- * also makes it easier/faster to add new tests - NICE!
- */
 typedef void (*TestFunc)();
 
 /* Structure for a test. See initRegularTests and initSpecialTests to see
@@ -38,15 +24,6 @@ typedef struct
    char *fnName;
 } Test;
 
-/* Modified hash algorithm from K&R (page 144). This version does NOT mod the
- * calculated hash value by the table size because it does not know the table
- * size - the caller (the hash table itself) does though!
- *
- * Also note the following:
- *   * This hash only works for C strings.
- *   * Not the best/fastest/most flexible hash - you'll want something better
- *     for the Word Frequency project.
- */
 static unsigned hashString(const void *data)
 {
    unsigned hash;
@@ -82,9 +59,6 @@ static int compareString(const void *a, const void *b)
    return strcmp(a, b);
 }
 
-/* Helper function to make random strings for robust testing. Strings will be
- * a minimum of 3 characters up to MAX_RANDOM_STR characters in length.
- */
 static char* randomString()
 {
    char *str;
@@ -106,17 +80,6 @@ static char* randomString()
    return str; 
 }
 
-/* PROVIDED TEST (do not modify)
- *
- * This is a provided sample test that matches the Evaluation System's English
- * test description for the Hash Table project's core test01. I hope it is
- * obvious to you that this is but one of many many variations that one could
- * write that would satisfy the English test description. Recall that one of
- * the important goals of the Evaluation System is to provide you with guidance
- * on how to test you solution but still allow you the opportunity develop your
- * own tests in the hopes that doing so will create an efficient and fruitful
- * learning experience!
- */
 static void core01()
 {
    unsigned sizes[] = {7};
@@ -199,17 +162,6 @@ static void core10()
    TEST_ERROR(htLookUp(ht, NULL));
 }
 
-/* PROVIDED TEST (do not modify)
- *
- * This is a provided sample test that matches the Evaluation System's English
- * test description for the Hash Table project's core test11. I hope it is
- * obvious to you that this is but one of many many variations that one could
- * write that would satisfy the English test description. Recall that one of
- * the important goals of the Evaluation System is to provide you with guidance
- * on how to test you solution but still allow you the opportunity develop your
- * own tests in the hopes that doing so will create an efficient and fruitful
- * learning experience!
- */ 
 static void core11()
 {
    unsigned sizes[] = {31};
@@ -224,17 +176,6 @@ static void core11()
    htDestroy(ht);
 }
 
-/* PROVIDED TEST (do not modify)
- *
- * This is a provided sample test that matches the Evaluation System's English
- * test description for the Hash Table project's core test12. I hope it is
- * obvious to you that this is but one of many many variations that one could
- * write that would satisfy the English test description. Recall that one of
- * the important goals of the Evaluation System is to provide you with guidance
- * on how to test you solution but still allow you the opportunity develop your
- * own tests in the hopes that doing so will create an efficient and fruitful
- * learning experience!
- */ 
 static void core12()
 {
    int freq = 0;
@@ -578,23 +519,6 @@ Test* initTests(Test tests[], int size)
    return memcpy(dynamicMemory, tests, size);
 }
 
-/* Allocates, initializes, and returns the array of regular test functions.
- * Regular test functions are those that are expected to pass or report failure
- * BUT NOT terminate the test driver.
- *
- * By default, the test driver runs ALL of the regular tests. Alternatively, you
- * can run one at a time by simply specifying its name when you invoke the
- * test driver.
- *
- * See initSpecialTests for tests that you always want to run individually.
- *
- * NOTE: The last structure in the array must have NULL values as this indicates
- *    the array's end.
- *
- * IMPORTANT SUBTLETY: You can only use sizeof to obtain an array's size in
- *    the scope where the array is declared, otherwise you will just get
- *    the size of the pointer to the array.
- */
 Test* initRegularTests()
 {
    Test local[] = {
@@ -614,23 +538,6 @@ Test* initRegularTests()
    return initTests(local, sizeof(local));
 }
 
-/* Allocates, initializes, and returns the array of special test functions.
- * Special test functions are those that you want to run individually for one
- * reason or another. For example, a test to see if a function asserts failure
- * when it is supposed to. Or, a test intended to measure CPU or memory
- * performance using tools like the Unix time command or Valgrind - for
- * tests like these you only want to run the single test and then observe the
- * results.
- *
- * See initRegularTests for tests that can together.
- *
- * NOTE: The last structure in the array must have NULL values as this indicates
- *    the array's end.
- *
- * IMPORTANT SUBTLETY: You can only use sizeof to obtain an array's size in
- *    the scope where the array is declared, otherwise you will just get
- *    the size of the pointer to the array.
- */
 Test* initSpecialTests()
 {
    Test local[] = {
@@ -651,35 +558,6 @@ Test* initSpecialTests()
    return initTests(local, sizeof(local)); 
 }
 
-/* Test driver for Hash Table Project.
- *
- * Usage: testHashTable [functionName | -special functionName]
- *
- * When no option is specified ALL of the regular tests are run.
- * When "functionName" is specified that single regular test is run.
- * When "-special functionName" is specified that single special test is run.
- *
- * What TODO: As provided with the Unit Test Hash Table exercise, this unit test
- * driver provides several working examples of actual Evaluation System tests
- * for the Hash Table project. The exercise asks you to develop a few more so
- * that you can experience how easy it is to develop unit tests BEFORE you even
- * implement any actual code for the solution being tested. The hope is that
- * this will encourage you to develop tests early and often as you develop your
- * Hash Table project solution thereby adding unit testing and Test Driven
- * Development (TDD) to your personal repertoire of programming skills! 
- *    
- * To add a new test you must:
- * 
- *    1) Write a test function.
- *    2) Add its name to the appropriate array of test functions, see
- *       initRegularTests and initSpecialTests for details.
- *    3) Compile and test your test by verifying:
- *          1. It report failure when run on code known to be incorrect.
- *          2. It passes (does NOT report failure) when run on code believed to
- *             be correct.
- *    4) Be sure use Valgrind, where appropriate, to check for memory errors
- *       and/or leaks too!
- */
 int main(int argc, char *argv[])
 {
    char *testName;
