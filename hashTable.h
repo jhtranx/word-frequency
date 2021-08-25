@@ -1,13 +1,3 @@
-/* This header file is provided with the hash table project and the associated
- * unit testing exercise for the same project.
- *
- *    ! ! !  DO NOT MODIFY THIS FILE ! ! !
- *
- * An unmodified version of this file will be used during evaluation even if
- * you submit a different one. If you need additional header file features you
- * must create your own separate header file and include it with your
- * submission.
- */
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 
