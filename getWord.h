@@ -12,7 +12,6 @@ typedef struct
    unsigned length;
 } Word;
 
-/* Prototype of the function you must write */
 int getWord(FILE *file, Byte **word, unsigned *wordLength, int *hasPrintable);
 
 #endif
